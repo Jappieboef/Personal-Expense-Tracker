@@ -3,6 +3,14 @@ import pandas as pd
 
 app = Flask(__name__)
 
+@app.route("/")
+def home():
+    return """
+    <h1>Welcome to the Expense Tracker</h1>
+    <p><a href="/expense">View Expense Table</a></p>
+    """
+
+
 @app.route("/expense", methods=["GET","POST"])
 def view_expenses():
     try:
