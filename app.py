@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request,redirect
 import pandas as pd
 
 app = Flask(__name__)
@@ -21,7 +21,7 @@ def add_expense():
         new_row = [date, category, float(amount)]
 
         filename = "synthetic_expense_data.csv"
-        file_exist = os.path.isfile(filename_)
+        file_exist = os.path.isfile(filename)
         with open(filename, "a") as f:
             if not file_exist:
                 f.write("Date,Category,Amount\n")
