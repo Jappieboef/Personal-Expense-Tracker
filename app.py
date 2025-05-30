@@ -29,9 +29,10 @@ def add_expense():
     if request.method == "POST":
         date = request.form.get("date")
         category = request.form.get("category")
+        description = request.form.get("description")
         amount = request.form.get("amount")
 
-        new_row = [date, category, float(amount)]
+        new_row = [date, category,description, float(amount)]
 
         filename = "synthetic_expense_data.csv"
         file_exist = os.path.isfile(filename)
