@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <h2 class="mb-4">Expense Table</h2>
+
+        <form method="POST" class="form-inline mb-4">
+            <label class="mr-2" for="category">Filter by Category:</label>
+            <select name="category" id="category" class="form-control mr-2">
+                {% for cat in categories %}
+                    <option value="{{ cat }}" {% if cat == selected %}selected{% endif %}>{{ cat }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
+
+        <div class="table-responsive">
+            {{ table | safe }}
+        </div>
+    </div>
+</body>
+</html>
