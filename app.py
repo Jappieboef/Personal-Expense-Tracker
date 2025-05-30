@@ -6,9 +6,22 @@ app = Flask(__name__)
 @app.route("/")
 def home():
     return """
-    <h1>Welcome to the Expense Tracker</h1>
-    <p><a href="/expense">View Expense Table</a></p>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Expense Tracker</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container mt-5">
+            <h1 class="mb-4">Welcome to the Expense Tracker</h1>
+            <a href="/expense" class="btn btn-primary mr-2">View Expenses</a>
+            <a href="/add" class="btn btn-success">Add New Expense</a>
+        </div>
+    </body>
+    </html>
     """
+
 from datetime import datetime
 
 @app.route("/add", methods=["GET", "POST"])
