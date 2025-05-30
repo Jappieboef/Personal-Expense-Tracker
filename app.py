@@ -9,7 +9,25 @@ def home():
     <h1>Welcome to the Expense Tracker</h1>
     <p><a href="/expense">View Expense Table</a></p>
     """
+from datetime import datetime
 
+@app.route("/add", methods=["GET", "POST"])
+def add_expense():
+    if request.method == "POST":
+        date = request.form.get("date")
+        category = request.form.get("category")
+        amount = request.form.get("amount")
+
+        new_row = [date, category, float(amount)]
+
+        filename = "synthetic_expense_data.csv"
+        file_exist = os.path.isfile(filename_)
+        with open(filename, "a") as f:
+            if not file_exist:
+                f.write("Date,Category,Amount\n")
+            f.write(",".join(map(str, new_row)) + "\n")
+        return redirect("/expense")
+    return render_template("add.html")
 
 @app.route("/expense", methods=["GET","POST"])
 def view_expenses():
