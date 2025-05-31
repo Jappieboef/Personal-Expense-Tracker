@@ -15,7 +15,7 @@ def login():
         requested_password = request.form.get("password")
         
         if requested_username == "admin" and requested_password == "pass123":
-            session["user"] = username
+            session["user"] = requested_username
             return redirect("/expense")
         else:
             return "Invalid username or password", 401
