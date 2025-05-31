@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request,redirect
+from flask import Flask, render_template, request,redirect, url_for, session
 import pandas as pd
 import matplotlib.pyplot as plt
 import base64
@@ -6,6 +6,27 @@ import seaborn as sns
 import io
 
 app = Flask(__name__)
+app.secret_key = 'supersecretkey'
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        requested_username = request.form.get("username")
+        requested_password = request.form.get("password")
+        
+        if requested_username == "admin" and requested_password == "pass123":
+            session["user"] = username
+            return redirect("/expense")
+        else:
+            return "Invalid username or password", 401
+
+    return render_template("login.html")
+
+@app.route("/logout")
+def logout():
+    session.pop("user", None)
+    return redirect("/login")
+
 
 @app.route("/")
 def home():
@@ -54,25 +75,31 @@ def spending_chart():
 
 @app.route("/add", methods=["GET", "POST"])
 def add_expense():
-    if request.method == "POST":
-        date = request.form.get("date")
-        category = request.form.get("category")
-        description = request.form.get("description")
-        amount = request.form.get("amount")
+    if "user" not in session:
+        return redirect("/login")
+    else:
+        if request.method == "POST":
+            date = request.form.get("date")
+            category = request.form.get("category")
+            description = request.form.get("description")
+            amount = request.form.get("amount")
 
-        new_row = [date, category,description, float(amount)]
+            new_row = [date, category,description, float(amount)]
 
-        filename = "synthetic_expense_data.csv"
-        file_exist = os.path.isfile(filename)
-        with open(filename, "a") as f:
-            if not file_exist:
-                f.write("Date,Category,Amount\n")
-            f.write(",".join(map(str, new_row)) + "\n")
-        return redirect("/expense")
-    return render_template("add.html")
+            filename = "synthetic_expense_data.csv"
+            file_exist = os.path.isfile(filename)
+            with open(filename, "a") as f:
+                if not file_exist:
+                    f.write("Date,Category,Amount\n")
+                f.write(",".join(map(str, new_row)) + "\n")
+            return redirect("/expense")
+        return render_template("add.html")
 
 @app.route("/expense", methods=["GET","POST"])
 def view_expenses():
+    if "user" not in session:
+        return redirect("/login")
+
     try:
         df = pd.read_csv("synthetic_expense_data.csv")
 
