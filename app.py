@@ -34,7 +34,7 @@ from datetime import datetime
 def spending_chart():
     df = pd.read_csv("synthetic_expense_data.csv")
     df["Date"] = pd.to_datetime(df["Date"])
-    daily = df.groupby(df["Date"].dt.date)["amount"].sum().reset_index()
+    daily = df.groupby(df["Date"].dt.date)["Amount"].sum().reset_index()
     plt.figure(figsize=(10, 5))
     sns.lineplot(data=daily, x="Date", y="Amount", marker="o")
     plt.title("Spending Over Time")
