@@ -1,4 +1,7 @@
 Flask==2.2.5
 gunicorn==21.2.0
 pandas==2.2.2
+matplotlib==3.8.2
+seaborn==0.13.2
+
 
