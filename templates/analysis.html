@@ -5,10 +5,21 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="container mt-4">
-        <h2>Spending Analysis</h2>
-        <p>{{ analysis }}</p>
-        <a href="/" class="btn btn-primary mt-3">Back to Home</a>
+    <div class="container mt-5">
+        <div class="card shadow p-4">
+            <h2 class="mb-3">Spending Analysis</h2>
+            <p>{{ analysis }}</p>
+
+            <!-- 🔁 Step 2: Refine Analysis Form -->
+            <form action="/analyze" method="POST" class="mt-4">
+                <label for="filter" class="form-label">Filter by keyword (optional):</label>
+                <input type="text" name="filter" id="filter" class="form-control mb-2" placeholder="e.g. groceries, utilities">
+                <button type="submit" class="btn btn-secondary">Refine Analysis</button>
+            </form>
+
+            <!-- 🔙 Back Button -->
+            <a href="/" class="btn btn-primary mt-4">Back to Home</a>
+        </div>
     </div>
 </body>
 </html>

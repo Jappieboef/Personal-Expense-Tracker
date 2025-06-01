@@ -14,12 +14,19 @@ import os
 
 openai.api_key = os.environ.get("OPENAI_API_KEY")  # or set it directly (not recommended)
 
-@app.route("/analyze")
+@app.route("/analyze", methods=["GET", "POST"])
 def analyze_spending():
     import pandas as pd
+    import openai
 
     df = pd.read_csv("synthetic_expense_data.csv")
-    summary_text = df.to_string(index=False)[:3000]  # limit to avoid token overflow
+    
+    # Optional filtering
+    keyword = request.form.get("filter")
+    if keyword:
+        df = df[df["Category"].str.contains(keyword, case=False, na=False)]
+
+    summary_text = df.to_string(index=False)[:3000]
 
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
@@ -31,6 +38,7 @@ def analyze_spending():
 
     analysis = response.choices[0].message["content"]
     return render_template("analysis.html", analysis=analysis)
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
