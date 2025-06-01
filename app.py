@@ -12,7 +12,7 @@ app.secret_key = 'supersecretkey'
 import openai
 import os
 
-openai.api_key = os.environ.get("OPENAI_API_KEY")  # or set it directly (not recommended)
+openai.api_key = os.environ.get("OPENAI_API_KEY")  
 
 @app.route("/analyze", methods=["GET", "POST"])
 def analyze_spending():
