@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
+    
     <style>
             .btn:hover {
       transform: scale(1.05);
@@ -41,19 +42,18 @@
         <h1>Welcome to the Expense Tracker</h1>
         <p>This is a <strong>demo web application</strong> built using Python (Flask), Bootstrap, and Matplotlib.<br>
            You can view your expenses, add new ones, and visualize spending trends.</p>
-<div class="card shadow p-4">
-  <p class="lead">This is a <strong>demo app</strong> built with Flask and Python.</p>
-  <div class="btn-group d-flex justify-content-center mt-3" role="group">
-<a href="/expense" class="btn btn-primary mx-2">
-  <i class="bi bi-table me-1"></i> View Expenses
-</a>
+<div class="card shadow p-4 mb-4 text-center">
+    <h3 class="mb-3">Expense Tracker</h3>
+    <p>This is a demo website where you can log, view, and analyze your expenses.</p>
 
-<a href="/add" class="btn btn-success mx-2">
-  <i class="bi bi-plus-circle me-1"></i> Add Expense
-</a>
+    <div class="btn-group mt-4" role="group">
+        <a href="/add" class="btn btn-success">➕ Add New Expense</a>
+        <a href="/expenses" class="btn btn-primary">📋 View Expense Table</a>
+        <a href="/chart" class="btn btn-warning">📊 View Chart</a>
+        <a href="/analyze" class="btn btn-info">🧠 Run Spending Analysis</a>
+    </div>
+</div>
 
-<a href="/chart" class="btn btn-info mx-2">
-  <i class="bi bi-bar-chart-line me-1"></i> View Chart
 </a>
 
         </div>
