@@ -8,6 +8,30 @@ import io
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
 
+
+import openai
+import os
+
+openai.api_key = os.environ.get("OPENAI_API_KEY")  # or set it directly (not recommended)
+
+@app.route("/analyze")
+def analyze_spending():
+    import pandas as pd
+
+    df = pd.read_csv("synthetic_expense_data.csv")
+    summary_text = df.to_string(index=False)[:3000]  # limit to avoid token overflow
+
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a financial assistant that helps analyze personal expenses."},
+            {"role": "user", "content": f"Analyze the following expenses:\n{summary_text}"}
+        ]
+    )
+
+    analysis = response.choices[0].message["content"]
+    return render_template("analysis.html", analysis=analysis)
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
