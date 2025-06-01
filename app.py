@@ -105,7 +105,7 @@ def add_expense():
             filename = "synthetic_expense_data.csv"
             file_exist = os.path.isfile(filename)
             with open(filename, "a") as f:
-                if not file_exist:
+                if not file_exist: 
                     f.write("Date,Category,Amount\n")
                 f.write(",".join(map(str, new_row)) + "\n")
             return redirect("/expense")
