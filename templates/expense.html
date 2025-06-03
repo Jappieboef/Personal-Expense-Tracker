@@ -8,11 +8,10 @@
     <div class="container mt-4">
         <h2 class="mb-4">Expense Table</h2>
         <a href="/logout" class="btn btn-danger">Log Out</a>
+        <a href="/add" class="btn btn-success mb-3 ml-2">Add New Expense</a>
+        <a href="/chart" class="btn btn-info ml-2">View Spending Chart</a>
 
-        <a href="/add" class="btn btn-success mb-3">Add New Expense</a>
-        <a href="/chart" class="btn btn-info">View Spending Chart</a>
-
-        <form method="POST" class="form-inline mb-4">
+        <form method="POST" class="form-inline mb-4 mt-3">
             <label class="mr-2" for="category">Filter by Category:</label>
             <select name="category" id="category" class="form-control mr-2">
                 {% for cat in categories %}
@@ -22,8 +21,25 @@
             <button type="submit" class="btn btn-primary">Filter</button>
         </form>
 
-        <div class="table-responsive">
+        <div class="table-responsive mb-5">
             {{ table | safe }}
+        </div>
+
+        <hr>
+        <h3>Monthly Summary</h3>
+        <p><strong>Total Spent:</strong> ${{ "%.2f"|format(total) }}</p>
+
+        <div class="row">
+            {% for category, amount in summary.items() %}
+                <div class="col-md-4 mb-3">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ category }}</h5>
+                            <p class="card-text">${{ "%.2f"|format(amount) }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </div>
 </body>

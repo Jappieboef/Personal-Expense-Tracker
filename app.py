@@ -111,31 +111,50 @@ def add_expense():
             return redirect("/expense")
         return render_template("add.html")
 
-@app.route("/expense", methods=["GET","POST"])
+@app.route("/expense", methods=["GET", "POST"])
 def view_expenses():
     if "user" not in session:
         return redirect("/login")
 
     try:
+        import pandas as pd
+
         df = pd.read_csv("synthetic_expense_data.csv")
 
-        # get selected category from form
+        # Get selected category from form
         selected_category = request.form.get("category")
 
-        # create list of categories for dropdown
+        # Create list of categories for dropdown
         all_categories = sorted(df["Category"].unique())
         categories = ["All"] + all_categories
 
-        # filter if category selected
+        # Filter if category selected
         if selected_category and selected_category != "All":
             df = df[df["Category"] == selected_category]
 
-        # create HTML table and render
+        # Build summary
+        if not df.empty:
+            summary = df.groupby("Category")["Amount"].sum().sort_values(ascending=False).to_dict()
+            total_spent = df["Amount"].sum()
+        else:
+            summary = {}
+            total_spent = 0
+
+        # Create HTML table
         table_html = df.to_html(classes="table table-striped table-bordered", index=False)
-        return render_template("expense.html", table=table_html, categories=categories, selected=selected_category or "All")
+
+        return render_template(
+            "expense.html",
+            table=table_html,
+            categories=categories,
+            selected=selected_category or "All",
+            summary=summary,
+            total=total_spent
+        )
 
     except FileNotFoundError:
         return "No expenses recorded yet!"
+
 
 if __name__ == "__main__":
     import os
